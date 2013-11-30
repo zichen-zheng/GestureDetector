@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		C941217D1848EFBC000C56D6 /* convert2png.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C941217B1848EFBC000C56D6 /* convert2png.cpp */; };
+		C94121811848FB6F000C56D6 /* genFileList.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C941217F1848FB6F000C56D6 /* genFileList.cpp */; };
 		C99E95451846764A001C1DF6 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C99E95441846764A001C1DF6 /* main.cpp */; };
 		C99E95471846764A001C1DF6 /* GestureDetector.1 in CopyFiles */ = {isa = PBXBuildFile; fileRef = C99E95461846764A001C1DF6 /* GestureDetector.1 */; };
 		C99E95C51846792C001C1DF6 /* libopencv_calib3d.2.4.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = C99E95B41846792C001C1DF6 /* libopencv_calib3d.2.4.0.dylib */; };
@@ -42,6 +44,12 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		C941217B1848EFBC000C56D6 /* convert2png.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = convert2png.cpp; path = GestureDetector/util/convert2png.cpp; sourceTree = "<group>"; };
+		C941217C1848EFBC000C56D6 /* convert2png.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = convert2png.h; path = GestureDetector/util/convert2png.h; sourceTree = "<group>"; };
+		C941217E1848F3DA000C56D6 /* basic.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = basic.h; sourceTree = "<group>"; };
+		C941217F1848FB6F000C56D6 /* genFileList.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = genFileList.cpp; path = GestureDetector/util/genFileList.cpp; sourceTree = "<group>"; };
+		C94121801848FB6F000C56D6 /* genFileList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = genFileList.h; path = GestureDetector/util/genFileList.h; sourceTree = "<group>"; };
+		C9412182184A4BAC000C56D6 /* main.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = main.h; sourceTree = "<group>"; };
 		C99E95411846764A001C1DF6 /* GestureDetector */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = GestureDetector; sourceTree = BUILT_PRODUCTS_DIR; };
 		C99E95441846764A001C1DF6 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		C99E95461846764A001C1DF6 /* GestureDetector.1 */ = {isa = PBXFileReference; lastKnownFileType = text.man; path = GestureDetector.1; sourceTree = "<group>"; };
@@ -92,9 +100,21 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		C94121711848ED2C000C56D6 /* util */ = {
+			isa = PBXGroup;
+			children = (
+				C941217B1848EFBC000C56D6 /* convert2png.cpp */,
+				C941217C1848EFBC000C56D6 /* convert2png.h */,
+				C941217F1848FB6F000C56D6 /* genFileList.cpp */,
+				C94121801848FB6F000C56D6 /* genFileList.h */,
+			);
+			name = util;
+			sourceTree = "<group>";
+		};
 		C99E95381846764A001C1DF6 = {
 			isa = PBXGroup;
 			children = (
+				C94121711848ED2C000C56D6 /* util */,
 				C99E95B3184678BC001C1DF6 /* libopencv */,
 				C99E95431846764A001C1DF6 /* GestureDetector */,
 				C99E95421846764A001C1DF6 /* Products */,
@@ -114,6 +134,8 @@
 			children = (
 				C99E95441846764A001C1DF6 /* main.cpp */,
 				C99E95461846764A001C1DF6 /* GestureDetector.1 */,
+				C941217E1848F3DA000C56D6 /* basic.h */,
+				C9412182184A4BAC000C56D6 /* main.h */,
 			);
 			path = GestureDetector;
 			sourceTree = "<group>";
@@ -193,7 +215,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C941217D1848EFBC000C56D6 /* convert2png.cpp in Sources */,
 				C99E95451846764A001C1DF6 /* main.cpp in Sources */,
+				C94121811848FB6F000C56D6 /* genFileList.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -271,15 +295,19 @@
 		C99E954B1846764A001C1DF6 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD)";
 				CLANG_CXX_LIBRARY = "libstdc++";
 				GCC_VERSION = "";
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					/usr/local/include,
 				);
+				LD_NO_PIE = NO;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					/usr/local/lib,
+					"/Users/Zichen/Documents/Workspace/cs6737-biometrics/GestureDetector/vlfeat/bin/maci",
+					"/Users/Zichen/Documents/Workspace/cs6737-biometrics/GestureDetector/vlfeat/bin/maci64",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
@@ -290,15 +318,19 @@
 		C99E954C1846764A001C1DF6 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD)";
 				CLANG_CXX_LIBRARY = "libstdc++";
 				GCC_VERSION = "";
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					/usr/local/include,
 				);
+				LD_NO_PIE = NO;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					/usr/local/lib,
+					"/Users/Zichen/Documents/Workspace/cs6737-biometrics/GestureDetector/vlfeat/bin/maci",
+					"/Users/Zichen/Documents/Workspace/cs6737-biometrics/GestureDetector/vlfeat/bin/maci64",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
@@ -325,6 +357,7 @@
 				C99E954C1846764A001C1DF6 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
