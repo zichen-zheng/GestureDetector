@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		C941217D1848EFBC000C56D6 /* convert2png.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C941217B1848EFBC000C56D6 /* convert2png.cpp */; };
 		C94121811848FB6F000C56D6 /* genFileList.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C941217F1848FB6F000C56D6 /* genFileList.cpp */; };
+		C9412185184B8CB5000C56D6 /* hogClassifier.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C9412183184B8CB5000C56D6 /* hogClassifier.cpp */; };
 		C99E95451846764A001C1DF6 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C99E95441846764A001C1DF6 /* main.cpp */; };
 		C99E95471846764A001C1DF6 /* GestureDetector.1 in CopyFiles */ = {isa = PBXBuildFile; fileRef = C99E95461846764A001C1DF6 /* GestureDetector.1 */; };
 		C99E95C51846792C001C1DF6 /* libopencv_calib3d.2.4.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = C99E95B41846792C001C1DF6 /* libopencv_calib3d.2.4.0.dylib */; };
@@ -50,6 +51,8 @@
 		C941217F1848FB6F000C56D6 /* genFileList.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = genFileList.cpp; path = GestureDetector/util/genFileList.cpp; sourceTree = "<group>"; };
 		C94121801848FB6F000C56D6 /* genFileList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = genFileList.h; path = GestureDetector/util/genFileList.h; sourceTree = "<group>"; };
 		C9412182184A4BAC000C56D6 /* main.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = main.h; sourceTree = "<group>"; };
+		C9412183184B8CB5000C56D6 /* hogClassifier.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = hogClassifier.cpp; sourceTree = "<group>"; };
+		C9412184184B8CB5000C56D6 /* hogClassifier.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = hogClassifier.h; sourceTree = "<group>"; };
 		C99E95411846764A001C1DF6 /* GestureDetector */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = GestureDetector; sourceTree = BUILT_PRODUCTS_DIR; };
 		C99E95441846764A001C1DF6 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		C99E95461846764A001C1DF6 /* GestureDetector.1 */ = {isa = PBXFileReference; lastKnownFileType = text.man; path = GestureDetector.1; sourceTree = "<group>"; };
@@ -133,9 +136,11 @@
 			isa = PBXGroup;
 			children = (
 				C99E95441846764A001C1DF6 /* main.cpp */,
-				C99E95461846764A001C1DF6 /* GestureDetector.1 */,
-				C941217E1848F3DA000C56D6 /* basic.h */,
 				C9412182184A4BAC000C56D6 /* main.h */,
+				C941217E1848F3DA000C56D6 /* basic.h */,
+				C9412183184B8CB5000C56D6 /* hogClassifier.cpp */,
+				C9412184184B8CB5000C56D6 /* hogClassifier.h */,
+				C99E95461846764A001C1DF6 /* GestureDetector.1 */,
 			);
 			path = GestureDetector;
 			sourceTree = "<group>";
@@ -216,6 +221,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C941217D1848EFBC000C56D6 /* convert2png.cpp in Sources */,
+				C9412185184B8CB5000C56D6 /* hogClassifier.cpp in Sources */,
 				C99E95451846764A001C1DF6 /* main.cpp in Sources */,
 				C94121811848FB6F000C56D6 /* genFileList.cpp in Sources */,
 			);

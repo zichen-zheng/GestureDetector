@@ -8,7 +8,7 @@
 
 #include "genFileList.h"
 
-void genFileList(vector<string> categories) {
+void genFileList() {
     ofstream trainFile, testComplexFile, testUniformFile; // file lists for training and testing datasets
     trainFile.open("../train_list.txt");
     testComplexFile.open("../test_complex_list.txt");
@@ -19,9 +19,17 @@ void genFileList(vector<string> categories) {
     string testUniformDir = "uniform/";
     string imgext = ".ppm";
     
-    int trainNumImgInFolder[] = {1329, 487, 572, 654, 1395, 435};
-    int testComplexNumImgInFolder[] = {39, 41, 47, 58, 54, 38};
-    int testUniformNumImgInFolder[] = {58, 61, 65, 76, 65, 57};
+    int trainNumImgInFolder[] = {1329, 487, /*572, 654,*/ 1395/*, 435*/};
+    int testComplexNumImgInFolder[] = {39, 41, /*47, 58,*/ 54/*, 38*/};
+    int testUniformNumImgInFolder[] = {58, 61, /*65, 76,*/ 65/*, 57*/};
+    
+    vector<string> categories;
+    categories.push_back("A");
+    categories.push_back("B");
+    //categories.push_back("C");
+    //categories.push_back("Five");
+    categories.push_back("Point");
+    //categories.push_back("V");
     
     for (int i = 0; i < categories.size(); i++) {
         string cat_folder = categories[i];

@@ -20,10 +20,8 @@ using namespace std;
 
 /**
  * Generate file lists for datasets.
- *
- * @param categoreis = defined categories of gestures
  */
-void genFileList(vector<string> categories);
+void genFileList();
 
 /**
  * Convert integer to string.

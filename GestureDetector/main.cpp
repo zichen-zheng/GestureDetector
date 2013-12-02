@@ -9,8 +9,7 @@
 #include "main.h"
 
 int main(int, char**) {
-    genFileListForAll();
-    convert2pngForAll();
+    hogTrain("../train_list.txt");
     return 0;
 }
 

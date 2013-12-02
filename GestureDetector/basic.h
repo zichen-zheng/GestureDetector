@@ -12,5 +12,6 @@
 #define GestureDetector_basic_h
 
 #define ROOT_PATH "../"
+#define FEATURES_DIR "../Features/"
 
 #endif

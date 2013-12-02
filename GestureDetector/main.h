@@ -14,19 +14,13 @@
 #include "util/convert2png.h"
 #include "util/genFileList.h"
 #include "basic.h"
+#include "hogClassifier.h"
 
 using namespace cv;
 using namespace std;
 
 void genFileListForAll() {
-    vector<string> categories;
-    categories.push_back("A");
-    categories.push_back("B");
-    categories.push_back("C");
-    categories.push_back("Five");
-    categories.push_back("Point");
-    categories.push_back("V");
-    genFileList(categories);
+    genFileList();
 }
 
 void convert2pngForAll() {
