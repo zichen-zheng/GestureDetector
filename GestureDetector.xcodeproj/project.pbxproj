@@ -318,6 +318,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
 				USER_HEADER_SEARCH_PATHS = "";
+				WARNING_CFLAGS = "-w";
 			};
 			name = Debug;
 		};
@@ -341,6 +342,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
 				USER_HEADER_SEARCH_PATHS = "";
+				WARNING_CFLAGS = "-w";
 			};
 			name = Release;
 		};

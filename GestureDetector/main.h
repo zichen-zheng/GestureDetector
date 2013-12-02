@@ -22,20 +22,11 @@ using namespace std;
 /**
  * Utility functions
  *
- * genFileListForAll: generate file list for training dataset, complex testing
- * dataset, and uniform testing dataset.
- *
  * convert2pngForAll: convert images listed in the above file list to PNG format.
+ *
+ * printHelp: print the usage of this program in the command line.
  */
-
-void genFileListForAll() {
-    genFileList(".png");
-}
-
-void convert2pngForAll() {
-    batch_convert2png("../train_list.txt");
-    batch_convert2png("../test_complex_list.txt");
-    batch_convert2png("../test_uniform_list.txt");
-}
+void convert2pngForAll();
+void printHelp(char* argv0);
 
 #endif

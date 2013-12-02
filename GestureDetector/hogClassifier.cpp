@@ -135,6 +135,56 @@ void hogTest(char* testFileList, const vector<string>& labels) {
 }
 
 
+int hogPredict(const Mat& img) {
+    assert(img.data);  // image should not be empty
+    Mat resizedImg = Mat::zeros(hogWinSize.width, hogWinSize.height, CV_8UC3);
+    vector<float> featVec;
+    resize(img, resizedImg, hogWinSize, 0, 0, INTER_CUBIC);
+    imshow("Frame", resizedImg);
+    
+    HOGDescriptor hog(hogWinSize, hogBlockSize, hogBlockStride, hogCellSize, hogNBins);
+    cout << "HOG descriptor length = " << hog.getDescriptorSize() << endl;
+    hog.compute(resizedImg, featVec, hogWinStride);  // compute HOG feature
+    
+    ofstream dataFile;
+    string dataFilePath;
+    dataFilePath.append(FEATURES_DIR).append(predictDataFileName);
+    dataFile.open(dataFilePath.c_str());
+    dataFile << "-1 ";
+    for (int i = 0; i < featVec.size(); i++) {   // write data
+        dataFile << i+1 << ":" << featVec[i] << " ";
+    }
+    dataFile.close();
+    
+    string svmScaleFilePath, scaledDataFilePath, svmModelFilePath, resultFilePath;
+    svmScaleFilePath.append(FEATURES_DIR).append(svmScaleRangeFileName);
+    scaledDataFilePath.append(FEATURES_DIR).append(scaledPredictDataFileName);
+    svmModelFilePath.append(FEATURES_DIR).append(svmModelFileName);
+    resultFilePath.append(FEATURES_DIR).append(predictResultFileName);
+    
+    string command;  // UNIX command
+    
+    // scale testing data
+    command.append("../libsvm/svm-scale -r ").append(svmScaleFilePath).append(" ").append(dataFilePath).append(" > ").append(scaledDataFilePath);
+    cout << "Scalling frame ... \n" << command << endl;
+    system(command.c_str()); // execute UNIX command
+    
+    // predict by SVM classifier
+    command.clear();
+    command.append("../libsvm/svm-predict -q -b 0 ").append(scaledDataFilePath).append(" ").append(svmModelFilePath).append(" ").append(resultFilePath);
+    cout << "Predicting ... \n" <<command << endl;
+    system(command.c_str()); // execute UNIX command
+    
+    ifstream fs;
+    fs.open(resultFilePath.c_str());
+    int label;
+    fs >> label;
+    fs.close();
+    
+    return label;
+}
+
+
 int hasCategory(const vector<string>& labels, const string& label) {
     for (int i = 0; i < labels.size(); i++) {
         string str = labels[i];

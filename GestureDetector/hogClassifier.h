@@ -35,7 +35,10 @@ const string svmScaleRangeFileName= "gesture.range";
 const string svmModelFileName = "gesture.model";
 const string testDataFileName = "test.data";
 const string scaledTestDataFileName = "test_scaled.data";
-const string testResultFileName = "gesture.result";
+const string testResultFileName = "test.result";
+const string predictDataFileName = "predict.data";
+const string scaledPredictDataFileName = "predict_scaled.data";
+const string predictResultFileName = "predict.result";
 
 /*
 //calculate the length of HOG descriptor
@@ -62,6 +65,9 @@ void hogTrain(char* trainFileList, vector<string>& labels);
  * @param labels = a label list containing labels supported by the SVM classifier
  */
 void hogTest(char* testFileList, const vector<string>& labels);
+
+
+int hogPredict(const Mat& img);
 
 
 /**
