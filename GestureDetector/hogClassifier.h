@@ -23,15 +23,19 @@
 using namespace std;
 using namespace cv;
 
-const Size hogWinSize = Size(32,32);
+const Size hogWinSize = Size(64,64);
 const Size hogBlockSize = Size(16,16);
 const Size hogBlockStride = Size(8,8);
 const Size hogCellSize = Size(8,8);
 const int hogNBins = 9;
 const Size hogWinStride = Size(8,8);
-const string trainDataFilePrefix = "train_data_";
-const string svmScaleRangeFilePrefix = "range_";
-const string svmModelFilePrefix = "model_";
+const string trainDataFileName = "train.data";
+const string scaledTrainDataFileName = "train_scaled.data";
+const string svmScaleRangeFileName= "gesture.range";
+const string svmModelFileName = "gesture.model";
+const string testDataFileName = "test.data";
+const string scaledTestDataFileName = "test_scaled.data";
+const string testResultFileName = "gesture.result";
 
 /*
 //calculate the length of HOG descriptor
@@ -41,7 +45,33 @@ const int numCell = (hogBlockSize.height / hogCellSize.height) * (hogBlockSize.w
 const int descriptorLen = numBlock * numCell * hogNBins;
  */
 
-void hogTrain(char* trainFileList);
-int hasCategory(const vector<string>& categoreis, const string &cat);
+
+/**
+ * Train a SVM classifier for HOG descriptors.
+ *
+ * @param trainFileList = a text file listing file paths for training samples
+ * @param labels = a label list containing all labels in the training dataset
+ */
+void hogTrain(char* trainFileList, vector<string>& labels);
+
+
+/**
+ * Test the accuracy of the SVM classifier trained by hogTrain.
+ *
+ * @param testFileList = a text file listing file paths for testing samples
+ * @param labels = a label list containing labels supported by the SVM classifier
+ */
+void hogTest(char* testFileList, const vector<string>& labels);
+
+
+/**
+ * Help function to determine the location of a label in the label list.
+ *
+ * @param labels = a label list
+ * @param label = a label
+ * @return the location/index of the label in the label list; -1 if not exist
+ */
+
+int hasCategory(const vector<string>& labels, const string& label);
 
 #endif /* defined(__GestureDetector__hogClassifier__) */

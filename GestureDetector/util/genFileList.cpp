@@ -8,7 +8,7 @@
 
 #include "genFileList.h"
 
-void genFileList() {
+void genFileList(const string& imgext) {
     ofstream trainFile, testComplexFile, testUniformFile; // file lists for training and testing datasets
     trainFile.open("../train_list.txt");
     testComplexFile.open("../test_complex_list.txt");
@@ -17,13 +17,19 @@ void genFileList() {
     string testDir = "../Dataset/marcel_test/";
     string testComplexDir = "complex/";
     string testUniformDir = "uniform/";
-    string imgext = ".ppm";
     
-    int trainNumImgInFolder[] = {1329, 487, /*572, 654,*/ 1395/*, 435*/};
-    int testComplexNumImgInFolder[] = {39, 41, /*47, 58,*/ 54/*, 38*/};
-    int testUniformNumImgInFolder[] = {58, 61, /*65, 76,*/ 65/*, 57*/};
+    /*
+    int trainNumImgInFolder[] = {4136, 1329, 487, 572, 654, 1395, 435};
+    int testComplexNumImgInFolder[] = {229, 39, 41, 47, 58, 54, 38};
+    int testUniformNumImgInFolder[] = {229, 58, 61, 65, 76, 65, 57};
+     */
+    
+    int trainNumImgInFolder[] = {4136, 1329, 487, 1395};
+    int testComplexNumImgInFolder[] = {229, 39, 41, 54};
+    int testUniformNumImgInFolder[] = {229, 58, 61, 65};
     
     vector<string> categories;
+    categories.push_back("Negative");
     categories.push_back("A");
     categories.push_back("B");
     //categories.push_back("C");

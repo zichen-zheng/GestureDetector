@@ -11,7 +11,7 @@
 #ifndef GestureDetector_basic_h
 #define GestureDetector_basic_h
 
-#define ROOT_PATH "../"
-#define FEATURES_DIR "../Features/"
+#define ROOT_DIR "../"
+#define FEATURES_DIR "../DerivedData/"
 
 #endif

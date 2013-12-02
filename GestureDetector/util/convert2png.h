@@ -21,7 +21,19 @@
 using namespace std;
 using namespace cv;
 
+/**
+ * Convert all images listed in a file list to PNG format.
+ * 
+ * @param file_list_path = location of file list
+ */
 void batch_convert2png(char* file_list_path);
+
+
+/**
+ * Convert a given image to PNG format.
+ *
+ * @param imgpath = location of the image to be converted
+ */
 void convert2png(string imgpath);
 
 #endif /* defined(__GestureDetector__convert2png__) */

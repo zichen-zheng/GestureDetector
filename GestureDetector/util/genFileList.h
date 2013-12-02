@@ -20,8 +20,10 @@ using namespace std;
 
 /**
  * Generate file lists for datasets.
+ *
+ * @param imgext = image extension (e.g. jpg, png, ppm ...)
  */
-void genFileList();
+void genFileList(const string& imgext);
 
 /**
  * Convert integer to string.

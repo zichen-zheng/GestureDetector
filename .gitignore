@@ -15,4 +15,12 @@
 Dataset/
 Debug/
 libsvm/src/
-Features/*
+DerivedData/GestureDetector/Index/
+DerivedData/GestureDetector/Logs/
+DerivedData/GestureDetector/TextIndex/
+
+# Data files
+*/*.data
+*/*.model
+*/*.range
+*/*.result
