@@ -17,12 +17,14 @@ void hogTrain(char* trainFileList, vector<string>& labels) {
     }
     
     HOGDescriptor hog(hogWinSize, hogBlockSize, hogBlockStride, hogCellSize, hogNBins);
-    cout << "HOG descriptor length = " << hog.getDescriptorSize() << endl;
+    DEBUGMODE {
+        cout << "HOG descriptor length = " << hog.getDescriptorSize() << endl;
+    }
     
     string label, imgpath;
     ofstream dataFile;
     string dataFilePath;
-    dataFilePath.append(FEATURES_DIR).append(trainDataFileName);
+    dataFilePath.append(ROOT_DIR).append(FEATURES_DIR).append(trainDataFileName);
     dataFile.open(dataFilePath.c_str());
     while (fs >> label) {
         int catnum = hasCategory(labels, label);
@@ -32,7 +34,9 @@ void hogTrain(char* trainFileList, vector<string>& labels) {
         }
         
         fs >> imgpath;
-        cout << "Extracting HOG features for " << imgpath << endl;
+        DEBUGMODE {
+            cout << "Extracting HOG features for " << imgpath << endl;
+        }
         Mat img = imread(imgpath);
         assert(img.data);  // image should not be empty
         Mat resizedImg = Mat::zeros(hogWinSize.width, hogWinSize.height, CV_8UC3);
@@ -54,21 +58,25 @@ void hogTrain(char* trainFileList, vector<string>& labels) {
     dataFile.close();
     
     string svmScaleFilePath, scaledDataFilePath, svmModelFilePath;
-    svmScaleFilePath.append(FEATURES_DIR).append(svmScaleRangeFileName);
-    scaledDataFilePath.append(FEATURES_DIR).append(scaledTrainDataFileName);
-    svmModelFilePath.append(FEATURES_DIR).append(svmModelFileName);
+    svmScaleFilePath.append(ROOT_DIR).append(FEATURES_DIR).append(svmScaleRangeFileName);
+    scaledDataFilePath.append(ROOT_DIR).append(FEATURES_DIR).append(scaledTrainDataFileName);
+    svmModelFilePath.append(ROOT_DIR).append(FEATURES_DIR).append(svmModelFileName);
     
     string command;  // UNIX command
     
     // scale data to range [-1 1]
-    command.append("../libsvm/svm-scale -l -1 -u 1 -s ").append(svmScaleFilePath).append(" ").append(dataFilePath).append(" > ").append(scaledDataFilePath);
-    cout << "Scalling training data ... \n" << command << endl;
+    command.append(ROOT_DIR).append(LIBSVM_DIR).append("svm-scale -l -1 -u 1 -s ").append(svmScaleFilePath).append(" ").append(dataFilePath).append(" > ").append(scaledDataFilePath);
+    DEBUGMODE {
+        cout << "Scalling training data ... \n" << command << endl;
+    }
     system(command.c_str()); // execute UNIX command
     
     // train SVM classifier
     command.clear();
-    command.append("../libsvm/svm-train ").append(scaledDataFilePath).append(" ").append(svmModelFilePath);
-    cout << "Training SVM classifier ... \n" <<command << endl;
+    command.append(ROOT_DIR).append(LIBSVM_DIR).append("svm-train ").append(scaledDataFilePath).append(" ").append(svmModelFilePath);
+    DEBUGMODE {
+        cout << "Training SVM classifier ... \n" <<command << endl;
+    }
     system(command.c_str()); // execute UNIX command
 }
 
@@ -82,19 +90,23 @@ void hogTest(char* testFileList, const vector<string>& labels) {
     }
     
     HOGDescriptor hog(hogWinSize, hogBlockSize, hogBlockStride, hogCellSize, hogNBins);
-    cout << "HOG descriptor length = " << hog.getDescriptorSize() << endl;
+    DEBUGMODE {
+        cout << "HOG descriptor length = " << hog.getDescriptorSize() << endl;
+    }
     
     string label, imgpath;
     ofstream dataFile;
     string dataFilePath;
-    dataFilePath.append(FEATURES_DIR).append(testDataFileName);
+    dataFilePath.append(ROOT_DIR).append(FEATURES_DIR).append(testDataFileName);
     dataFile.open(dataFilePath.c_str());
     while (fs >> label) {
         int catnum = hasCategory(labels, label);
         assert(catnum >= 0);
         
         fs >> imgpath;
-        cout << "Extracting HOG features for " << imgpath << endl;
+        DEBUGMODE {
+            cout << "Extracting HOG features for " << imgpath << endl;
+        }
         Mat img = imread(imgpath);
         assert(img.data);  // image should not be empty
         Mat resizedImg = Mat::zeros(hogWinSize.width, hogWinSize.height, CV_8UC3);
@@ -115,22 +127,26 @@ void hogTest(char* testFileList, const vector<string>& labels) {
     dataFile.close();
     
     string svmScaleFilePath, scaledDataFilePath, svmModelFilePath, resultFilePath;
-    svmScaleFilePath.append(FEATURES_DIR).append(svmScaleRangeFileName);
-    scaledDataFilePath.append(FEATURES_DIR).append(scaledTestDataFileName);
-    svmModelFilePath.append(FEATURES_DIR).append(svmModelFileName);
-    resultFilePath.append(FEATURES_DIR).append(testResultFileName);
+    svmScaleFilePath.append(ROOT_DIR).append(FEATURES_DIR).append(svmScaleRangeFileName);
+    scaledDataFilePath.append(ROOT_DIR).append(FEATURES_DIR).append(scaledTestDataFileName);
+    svmModelFilePath.append(ROOT_DIR).append(FEATURES_DIR).append(svmModelFileName);
+    resultFilePath.append(ROOT_DIR).append(FEATURES_DIR).append(testResultFileName);
     
     string command;  // UNIX command
     
     // scale testing data
-    command.append("../libsvm/svm-scale -r ").append(svmScaleFilePath).append(" ").append(dataFilePath).append(" > ").append(scaledDataFilePath);
-    cout << "Scalling testing data ... \n" << command << endl;
+    command.append(ROOT_DIR).append(LIBSVM_DIR).append("svm-scale -r ").append(svmScaleFilePath).append(" ").append(dataFilePath).append(" > ").append(scaledDataFilePath);
+    DEBUGMODE {
+        cout << "Scalling testing data ... \n" << command << endl;
+    }
     system(command.c_str()); // execute UNIX command
     
     // predict by SVM classifier
     command.clear();
-    command.append("../libsvm/svm-predict -b 0 ").append(scaledDataFilePath).append(" ").append(svmModelFilePath).append(" ").append(resultFilePath);
-    cout << "Predicting ... \n" <<command << endl;
+    command.append(ROOT_DIR).append(LIBSVM_DIR).append("svm-predict -b 0 ").append(scaledDataFilePath).append(" ").append(svmModelFilePath).append(" ").append(resultFilePath);
+    DEBUGMODE {
+        cout << "Predicting ... \n" <<command << endl;
+    }
     system(command.c_str()); // execute UNIX command
 }
 
@@ -140,15 +156,16 @@ int hogPredict(const Mat& img) {
     Mat resizedImg = Mat::zeros(hogWinSize.width, hogWinSize.height, CV_8UC3);
     vector<float> featVec;
     resize(img, resizedImg, hogWinSize, 0, 0, INTER_CUBIC);
-    imshow("Frame", resizedImg);
     
     HOGDescriptor hog(hogWinSize, hogBlockSize, hogBlockStride, hogCellSize, hogNBins);
-    cout << "HOG descriptor length = " << hog.getDescriptorSize() << endl;
+    DEBUGMODE {
+        cout << "HOG descriptor length = " << hog.getDescriptorSize() << endl;
+    }
     hog.compute(resizedImg, featVec, hogWinStride);  // compute HOG feature
     
     ofstream dataFile;
     string dataFilePath;
-    dataFilePath.append(FEATURES_DIR).append(predictDataFileName);
+    dataFilePath.append(ROOT_DIR).append(FEATURES_DIR).append(predictDataFileName);
     dataFile.open(dataFilePath.c_str());
     dataFile << "-1 ";
     for (int i = 0; i < featVec.size(); i++) {   // write data
@@ -157,22 +174,26 @@ int hogPredict(const Mat& img) {
     dataFile.close();
     
     string svmScaleFilePath, scaledDataFilePath, svmModelFilePath, resultFilePath;
-    svmScaleFilePath.append(FEATURES_DIR).append(svmScaleRangeFileName);
-    scaledDataFilePath.append(FEATURES_DIR).append(scaledPredictDataFileName);
-    svmModelFilePath.append(FEATURES_DIR).append(svmModelFileName);
-    resultFilePath.append(FEATURES_DIR).append(predictResultFileName);
+    svmScaleFilePath.append(ROOT_DIR).append(FEATURES_DIR).append(svmScaleRangeFileName);
+    scaledDataFilePath.append(ROOT_DIR).append(FEATURES_DIR).append(scaledPredictDataFileName);
+    svmModelFilePath.append(ROOT_DIR).append(FEATURES_DIR).append(svmModelFileName);
+    resultFilePath.append(ROOT_DIR).append(FEATURES_DIR).append(predictResultFileName);
     
     string command;  // UNIX command
     
     // scale testing data
-    command.append("../libsvm/svm-scale -r ").append(svmScaleFilePath).append(" ").append(dataFilePath).append(" > ").append(scaledDataFilePath);
-    cout << "Scalling frame ... \n" << command << endl;
+    command.append(ROOT_DIR).append(LIBSVM_DIR).append("svm-scale -r ").append(svmScaleFilePath).append(" ").append(dataFilePath).append(" > ").append(scaledDataFilePath);
+    DEBUGMODE {
+        cout << "Scalling frame ... \n" << command << endl;
+    }
     system(command.c_str()); // execute UNIX command
     
     // predict by SVM classifier
     command.clear();
-    command.append("../libsvm/svm-predict -q -b 0 ").append(scaledDataFilePath).append(" ").append(svmModelFilePath).append(" ").append(resultFilePath);
-    cout << "Predicting ... \n" <<command << endl;
+    command.append(ROOT_DIR).append(LIBSVM_DIR).append("svm-predict -q -b 0 ").append(scaledDataFilePath).append(" ").append(svmModelFilePath).append(" ").append(resultFilePath);
+    DEBUGMODE {
+        cout << "Predicting ... \n" <<command << endl;
+    }
     system(command.c_str()); // execute UNIX command
     
     ifstream fs;

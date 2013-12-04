@@ -64,7 +64,11 @@
          </CommandLineArgument>
          <CommandLineArgument
             argument = "-m 4"
-            isEnabled = "YES">
+            isEnabled = "NO">
+         </CommandLineArgument>
+         <CommandLineArgument
+            argument = "-m 0"
+            isEnabled = "NO">
          </CommandLineArgument>
       </CommandLineArguments>
       <AdditionalOptions>

@@ -23,7 +23,7 @@
 using namespace std;
 using namespace cv;
 
-const Size hogWinSize = Size(64,64);
+const Size hogWinSize = Size(32,32);
 const Size hogBlockSize = Size(16,16);
 const Size hogBlockStride = Size(8,8);
 const Size hogCellSize = Size(8,8);

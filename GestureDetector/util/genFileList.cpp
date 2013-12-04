@@ -19,14 +19,14 @@ void genFileList(const string& imgext) {
     string testUniformDir = "uniform/";
     
     /*
-    int trainNumImgInFolder[] = {4136, 1329, 487, 572, 654, 1395, 435};
-    int testComplexNumImgInFolder[] = {229, 39, 41, 47, 58, 54, 38};
-    int testUniformNumImgInFolder[] = {229, 58, 61, 65, 76, 65, 57};
+    int trainNumImgInFolder[] = {1000, 1329, 487, 572, 654, 1395, 435};
+    int testComplexNumImgInFolder[] = {60, 39, 41, 47, 58, 54, 38};
+    int testUniformNumImgInFolder[] = {60, 58, 61, 65, 76, 65, 57};
      */
     
-    int trainNumImgInFolder[] = {4136, 1329, 487, 1395};
-    int testComplexNumImgInFolder[] = {229, 39, 41, 54};
-    int testUniformNumImgInFolder[] = {229, 58, 61, 65};
+    int trainNumImgInFolder[] = {1000, 1329, 487, 1395};
+    int testComplexNumImgInFolder[] = {60, 39, 41, 54};
+    int testUniformNumImgInFolder[] = {60, 58, 61, 65};
     
     vector<string> categories;
     categories.push_back("Negative");

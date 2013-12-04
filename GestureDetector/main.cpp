@@ -13,6 +13,7 @@
  */
 int main(int argc, char** argv) {
     int mode = 2;
+    string imgpath;
     
     // parse command line arguments
     for (int i = 1; i < argc; i++) {
@@ -24,6 +25,9 @@ int main(int argc, char** argv) {
 		switch (argv[i-1][1]) {
 			case 'm':
                 mode = atoi(argv[i]);
+                break;
+            case 'i':
+                imgpath = string(argv[i]);
                 break;
 			default:
 				fprintf(stderr,"Unknown option: -%c\n", argv[i-1][1]);
@@ -62,7 +66,7 @@ int main(int argc, char** argv) {
         // set video capture parameters
         //cap.set(CV_CAP_PROP_FRAME_HEIGHT, 120);
         //cap.set(CV_CAP_PROP_FRAME_WIDTH, 120);
-        cap.set(CV_CAP_PROP_FPS, 3);  // set frame rate
+        cap.set(CV_CAP_PROP_FPS, 10);  // set frame rate
         
         namedWindow("Gesture Detector", 1);
         while (true) {
@@ -78,13 +82,39 @@ int main(int argc, char** argv) {
             Mat(frame, region).copyTo(croppedFrame);
             
             int l = hogPredict(croppedFrame);
-            cout << "-----------------\n";
-            cout << l << endl;
-            cout << "-----------------\n";
-            //imshow("Frame", croppedFrame);
+            DEBUGMODE {
+                cout << "-----------------\n";
+                cout << l << endl;
+                cout << "-----------------\n";
+            }
+            imshow("Frame", croppedFrame);
         }
         
         return 0;
+    }
+    
+    else if (mode == 5) {
+        Mat img = imread(imgpath);
+        if (! img.data) {  // image is empty
+            cerr << "Error: cannot read image: " << imgpath << endl;
+            exit(-3);
+        }
+        
+        // crop the image to a square
+        int dim = std::min(img.rows, img.cols);
+        unsigned int startX = (unsigned int) (img.cols - dim) / 2;
+        unsigned int startY = (unsigned int) (img.rows - dim) / 2;
+        Rect region((int) startX, (int) startY, dim, dim);
+        Mat croppedImg;
+        Mat(img, region).copyTo(croppedImg);
+        
+        int l = hogPredict(croppedImg);
+        DEBUGMODE {
+            cout << "-----------------\n";
+            cout << l << endl;
+            cout << "-----------------\n";
+        }
+        
     }
     
     return 0;
@@ -104,10 +134,12 @@ void convert2pngForAll() {
 
 void printHelp(char* argv0) {
     cout << "Usage: " << argv0 << " [options] ...\n";
-    cout << "-m mode : (default 2)\n";
+    cout << "-m mode (default 2)\n";
     cout << "   0 -- generate file list for sample images\n";
     cout << "   1 -- convert sample images to PNG\n";
     cout << "   2 -- train SVM classifier and test\n";
     cout << "   3 -- test based on existing SVM model\n";
-    cout << "   4 -- predict a single image based on existing SVM model\n";
+    cout << "   4 -- predict gesture via built-in camera\n";
+    cout << "   5 -- predict gesture given an image\n";
+    cout << "-i input_image_path (required if -m is 5)\n";
 }
