@@ -14,13 +14,7 @@
 
 Dataset/
 Debug/
+Release/
 libsvm/src/
-DerivedData/GestureDetector/Index/
-DerivedData/GestureDetector/Logs/
-DerivedData/GestureDetector/TextIndex/
-
-# Data files
-*/*.data
-*/*.model
-*/*.range
-*/*.result
+DerivedData/
+*.build/
