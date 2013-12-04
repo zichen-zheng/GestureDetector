@@ -11,8 +11,10 @@
 #ifndef GestureDetector_basic_h
 #define GestureDetector_basic_h
 
-#define APP_CONTROLLER
+#include <sys/time.h>
 
+
+//#define APP_CONTROLLER
 #ifdef APP_CONTROLLER
 #define ROOT_DIR "AppController.app/Contents/Resources/GestureDetector/"
 #define FEATURES_DIR ""
@@ -24,12 +26,18 @@
 #endif
 
 
-//#define _DEBUG
-
-#ifdef _DEBUG
+#ifdef DEBUG
 #define DEBUGMODE if (true)
 #else
 #define DEBUGMODE if (false)
 #endif
+
+
+// get system time in second
+static double getSecond() {
+    struct timeval tv;
+    gettimeofday(&tv, NULL);
+    return ( (double)tv.tv_sec ) + ( (double)tv.tv_usec ) * 1.0e-6;
+}
 
 #endif

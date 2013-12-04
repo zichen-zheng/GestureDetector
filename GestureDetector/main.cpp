@@ -41,22 +41,41 @@ int main(int argc, char** argv) {
     labels.push_back("B");
     labels.push_back("Point");
     
+#ifdef APP_CONTROLLER
+    mode = 5;
+#endif
+    
     if (mode == 0) {
+        cout << "Generating file list ...\n";
         genFileList(".png");
         return 0;
     }
     else if (mode == 1) {
+        cout << "Converting images to PNG format ...\n";
         genFileList(".ppm");
         convert2pngForAll();
         return 0;
     }
     else if (mode == 2 || mode == 3) {
         if (mode == 2) {
+            cout << "============= Training =============\n";
             labels.clear();
             hogTrain("../train_list.txt", labels);
+            cout << endl;
         }
+        
+        double time0 = getSecond();
+        cout << "===== Testing (Uniform Dataset) =====\n";
         hogTest("../test_uniform_list.txt", labels);
+        double time1 = getSecond();
+        cout << "Time elasped for testing = " << time1-time0 << " seconds\n";
+        
+        cout << endl;
+        
+        cout << "===== Testing (Complex Dataset) =====\n";
         hogTest("../test_complex_list.txt", labels);
+        double time2 = getSecond();
+        cout << "Time elasped for testing = " << time2-time1 << " seconds\n";
     }
     else if (mode == 4) {
         VideoCapture cap(0); // open the default camera
@@ -81,13 +100,14 @@ int main(int argc, char** argv) {
             Mat croppedFrame;
             Mat(frame, region).copyTo(croppedFrame);
             
-            int l = hogPredict(croppedFrame);
+            int gdCode = hogPredict(croppedFrame);
             DEBUGMODE {
-                cout << "-----------------\n";
-                cout << l << endl;
-                cout << "-----------------\n";
+                cout << "---------------------\n";
+                cout << "   Gesture Code: " << gdCode << endl;
+                cout << "---------------------\n";
             }
-            imshow("Frame", croppedFrame);
+            cout << "Gesture: " << gestureCode2Str(gdCode) << endl;
+            imshow("Gesture Detector", croppedFrame);
         }
         
         return 0;
@@ -108,12 +128,13 @@ int main(int argc, char** argv) {
         Mat croppedImg;
         Mat(img, region).copyTo(croppedImg);
         
-        int l = hogPredict(croppedImg);
+        int gdCode = hogPredict(croppedImg);
         DEBUGMODE {
-            cout << "-----------------\n";
-            cout << l << endl;
-            cout << "-----------------\n";
+            cout << "---------------------\n";
+            cout << "   Gesture Code: " << gdCode << endl;
+            cout << "---------------------\n";
         }
+        cout << "Gesture: " << gestureCode2Str(gdCode) << endl;
         
     }
     
@@ -125,6 +146,27 @@ int main(int argc, char** argv) {
 /**
  * Utility functions implementation
  */
+
+string gestureCode2Str(int gdCode) {
+    string gdStr;
+    switch (gdCode) {
+        case 0:
+            gdStr = "No Gesture";
+            break;
+        case 1:
+            gdStr = "Fist";
+            break;
+        case 2:
+            gdStr = "Palm";
+            break;
+        case 3:
+            gdStr = "Pointing";
+            break;
+        default:
+            break;
+    }
+    return gdStr;
+}
 
 void convert2pngForAll() {
     batch_convert2png("../train_list.txt");

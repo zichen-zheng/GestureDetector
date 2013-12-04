@@ -299,9 +299,7 @@
 		C99E954B1846764A001C1DF6 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD)";
 				CLANG_CXX_LIBRARY = "libstdc++";
-				GCC_VERSION = "";
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					/usr/local/include,
@@ -314,7 +312,6 @@
 					"/Users/Zichen/Documents/Workspace/cs6737-biometrics/GestureDetector/vlfeat/bin/maci64",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = macosx;
 				USER_HEADER_SEARCH_PATHS = "";
 				WARNING_CFLAGS = "-w";
 			};
@@ -323,9 +320,7 @@
 		C99E954C1846764A001C1DF6 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD)";
 				CLANG_CXX_LIBRARY = "libstdc++";
-				GCC_VERSION = "";
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					/usr/local/include,
@@ -338,7 +333,6 @@
 					"/Users/Zichen/Documents/Workspace/cs6737-biometrics/GestureDetector/vlfeat/bin/maci64",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = macosx;
 				USER_HEADER_SEARCH_PATHS = "";
 				WARNING_CFLAGS = "-w";
 			};

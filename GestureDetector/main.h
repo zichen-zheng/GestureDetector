@@ -28,5 +28,6 @@ using namespace std;
  */
 void convert2pngForAll();
 void printHelp(char* argv0);
+string gestureCode2Str(int gdCode);
 
 #endif

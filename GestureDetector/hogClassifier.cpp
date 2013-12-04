@@ -26,6 +26,7 @@ void hogTrain(char* trainFileList, vector<string>& labels) {
     string dataFilePath;
     dataFilePath.append(ROOT_DIR).append(FEATURES_DIR).append(trainDataFileName);
     dataFile.open(dataFilePath.c_str());
+    cout << "Extracting HOG features ...\n";
     while (fs >> label) {
         int catnum = hasCategory(labels, label);
         if (catnum < 0) {
@@ -66,16 +67,19 @@ void hogTrain(char* trainFileList, vector<string>& labels) {
     
     // scale data to range [-1 1]
     command.append(ROOT_DIR).append(LIBSVM_DIR).append("svm-scale -l -1 -u 1 -s ").append(svmScaleFilePath).append(" ").append(dataFilePath).append(" > ").append(scaledDataFilePath);
+    cout << "Scaling training data ... \n";
     DEBUGMODE {
-        cout << "Scalling training data ... \n" << command << endl;
+        cout << command << endl;
     }
     system(command.c_str()); // execute UNIX command
     
     // train SVM classifier
     command.clear();
-    command.append(ROOT_DIR).append(LIBSVM_DIR).append("svm-train ").append(scaledDataFilePath).append(" ").append(svmModelFilePath);
+    DEBUGMODE {} else svmTrainFlags.append("-q ");
+    command.append(ROOT_DIR).append(LIBSVM_DIR).append(svmTrainFlags).append(scaledDataFilePath).append(" ").append(svmModelFilePath);
+    cout << "Training SVM classifier ... \n";
     DEBUGMODE {
-        cout << "Training SVM classifier ... \n" <<command << endl;
+        cout <<command << endl;
     }
     system(command.c_str()); // execute UNIX command
 }
@@ -99,6 +103,7 @@ void hogTest(char* testFileList, const vector<string>& labels) {
     string dataFilePath;
     dataFilePath.append(ROOT_DIR).append(FEATURES_DIR).append(testDataFileName);
     dataFile.open(dataFilePath.c_str());
+    cout << "Extracting HOG features ...\n";
     while (fs >> label) {
         int catnum = hasCategory(labels, label);
         assert(catnum >= 0);
@@ -136,16 +141,18 @@ void hogTest(char* testFileList, const vector<string>& labels) {
     
     // scale testing data
     command.append(ROOT_DIR).append(LIBSVM_DIR).append("svm-scale -r ").append(svmScaleFilePath).append(" ").append(dataFilePath).append(" > ").append(scaledDataFilePath);
+    cout << "Scaling testing data ... \n";
     DEBUGMODE {
-        cout << "Scalling testing data ... \n" << command << endl;
+        cout << command << endl;
     }
     system(command.c_str()); // execute UNIX command
     
     // predict by SVM classifier
     command.clear();
-    command.append(ROOT_DIR).append(LIBSVM_DIR).append("svm-predict -b 0 ").append(scaledDataFilePath).append(" ").append(svmModelFilePath).append(" ").append(resultFilePath);
+    command.append(ROOT_DIR).append(LIBSVM_DIR).append(svmPredictFlags).append(scaledDataFilePath).append(" ").append(svmModelFilePath).append(" ").append(resultFilePath);
+    cout << "Predicting ... \n";
     DEBUGMODE {
-        cout << "Predicting ... \n" <<command << endl;
+        cout << command << endl;
     }
     system(command.c_str()); // execute UNIX command
 }
@@ -184,13 +191,14 @@ int hogPredict(const Mat& img) {
     // scale testing data
     command.append(ROOT_DIR).append(LIBSVM_DIR).append("svm-scale -r ").append(svmScaleFilePath).append(" ").append(dataFilePath).append(" > ").append(scaledDataFilePath);
     DEBUGMODE {
-        cout << "Scalling frame ... \n" << command << endl;
+        cout << "Scaling frame ... \n" << command << endl;
     }
     system(command.c_str()); // execute UNIX command
     
     // predict by SVM classifier
     command.clear();
-    command.append(ROOT_DIR).append(LIBSVM_DIR).append("svm-predict -q -b 0 ").append(scaledDataFilePath).append(" ").append(svmModelFilePath).append(" ").append(resultFilePath);
+    DEBUGMODE {} else svmPredictFlags.append("-q ");
+    command.append(ROOT_DIR).append(LIBSVM_DIR).append(svmPredictFlags).append(scaledDataFilePath).append(" ").append(svmModelFilePath).append(" ").append(resultFilePath);
     DEBUGMODE {
         cout << "Predicting ... \n" <<command << endl;
     }

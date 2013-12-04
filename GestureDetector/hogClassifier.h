@@ -23,6 +23,10 @@
 using namespace std;
 using namespace cv;
 
+
+static string svmTrainFlags = "svm-train ";  // TO BE TUNED
+static string svmPredictFlags = "svm-predict -b 0 ";
+
 const Size hogWinSize = Size(32,32);
 const Size hogBlockSize = Size(16,16);
 const Size hogBlockStride = Size(8,8);
@@ -67,6 +71,12 @@ void hogTrain(char* trainFileList, vector<string>& labels);
 void hogTest(char* testFileList, const vector<string>& labels);
 
 
+/**
+ * Predict gesture in a single image.
+ *
+ * @param img = image data
+ * @return predicted gesture code
+ */
 int hogPredict(const Mat& img);
 
 
