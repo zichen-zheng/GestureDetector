@@ -23,9 +23,10 @@
 using namespace std;
 using namespace cv;
 
+static string svmParam = "-t 2 -c 0.75 -g 2.5e-3 ";
 
-static string svmTrainFlags = "svm-train ";  // TO BE TUNED
-static string svmPredictFlags = "svm-predict -b 0 ";
+static string svmTrainRoutine = "svm-train -b 0 -s 0 ";
+static string svmPredictRoutine = "svm-predict -b 0 ";
 
 const Size hogWinSize = Size(32,32);
 const Size hogBlockSize = Size(16,16);
@@ -75,9 +76,10 @@ void hogTest(char* testFileList, const vector<string>& labels);
  * Predict gesture in a single image.
  *
  * @param img = image data
+ * @param rootDir = root directory of the program
  * @return predicted gesture code
  */
-int hogPredict(const Mat& img);
+int hogPredict(const Mat& img, string rootDir = ROOT_DIR);
 
 
 /**

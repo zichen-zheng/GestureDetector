@@ -18,3 +18,4 @@ Release/
 libsvm/src/
 DerivedData/
 *.build/
+*.DS_Store

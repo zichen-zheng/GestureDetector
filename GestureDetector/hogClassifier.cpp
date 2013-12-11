@@ -75,8 +75,9 @@ void hogTrain(char* trainFileList, vector<string>& labels) {
     
     // train SVM classifier
     command.clear();
-    DEBUGMODE {} else svmTrainFlags.append("-q ");
-    command.append(ROOT_DIR).append(LIBSVM_DIR).append(svmTrainFlags).append(scaledDataFilePath).append(" ").append(svmModelFilePath);
+    svmTrainRoutine.append(svmParam);
+    DEBUGMODE {} else svmTrainRoutine.append("-q ");
+    command.append(ROOT_DIR).append(LIBSVM_DIR).append(svmTrainRoutine).append(scaledDataFilePath).append(" ").append(svmModelFilePath);
     cout << "Training SVM classifier ... \n";
     DEBUGMODE {
         cout <<command << endl;
@@ -146,10 +147,10 @@ void hogTest(char* testFileList, const vector<string>& labels) {
         cout << command << endl;
     }
     system(command.c_str()); // execute UNIX command
-    
+
     // predict by SVM classifier
     command.clear();
-    command.append(ROOT_DIR).append(LIBSVM_DIR).append(svmPredictFlags).append(scaledDataFilePath).append(" ").append(svmModelFilePath).append(" ").append(resultFilePath);
+    command.append(ROOT_DIR).append(LIBSVM_DIR).append(svmPredictRoutine).append(scaledDataFilePath).append(" ").append(svmModelFilePath).append(" ").append(resultFilePath);
     cout << "Predicting ... \n";
     DEBUGMODE {
         cout << command << endl;
@@ -158,7 +159,8 @@ void hogTest(char* testFileList, const vector<string>& labels) {
 }
 
 
-int hogPredict(const Mat& img) {
+int hogPredict(const Mat& img, string rootDir) {
+    if (rootDir.empty()) rootDir = ROOT_DIR;
     assert(img.data);  // image should not be empty
     Mat resizedImg = Mat::zeros(hogWinSize.width, hogWinSize.height, CV_8UC3);
     vector<float> featVec;
@@ -172,7 +174,7 @@ int hogPredict(const Mat& img) {
     
     ofstream dataFile;
     string dataFilePath;
-    dataFilePath.append(ROOT_DIR).append(FEATURES_DIR).append(predictDataFileName);
+    dataFilePath.append(rootDir).append(FEATURES_DIR).append(predictDataFileName);
     dataFile.open(dataFilePath.c_str());
     dataFile << "-1 ";
     for (int i = 0; i < featVec.size(); i++) {   // write data
@@ -181,15 +183,15 @@ int hogPredict(const Mat& img) {
     dataFile.close();
     
     string svmScaleFilePath, scaledDataFilePath, svmModelFilePath, resultFilePath;
-    svmScaleFilePath.append(ROOT_DIR).append(FEATURES_DIR).append(svmScaleRangeFileName);
-    scaledDataFilePath.append(ROOT_DIR).append(FEATURES_DIR).append(scaledPredictDataFileName);
-    svmModelFilePath.append(ROOT_DIR).append(FEATURES_DIR).append(svmModelFileName);
-    resultFilePath.append(ROOT_DIR).append(FEATURES_DIR).append(predictResultFileName);
+    svmScaleFilePath.append(rootDir).append(FEATURES_DIR).append(svmScaleRangeFileName);
+    scaledDataFilePath.append(rootDir).append(FEATURES_DIR).append(scaledPredictDataFileName);
+    svmModelFilePath.append(rootDir).append(FEATURES_DIR).append(svmModelFileName);
+    resultFilePath.append(rootDir).append(FEATURES_DIR).append(predictResultFileName);
     
     string command;  // UNIX command
     
     // scale testing data
-    command.append(ROOT_DIR).append(LIBSVM_DIR).append("svm-scale -r ").append(svmScaleFilePath).append(" ").append(dataFilePath).append(" > ").append(scaledDataFilePath);
+    command.append(rootDir).append(LIBSVM_DIR).append("svm-scale -r ").append(svmScaleFilePath).append(" ").append(dataFilePath).append(" > ").append(scaledDataFilePath);
     DEBUGMODE {
         cout << "Scaling frame ... \n" << command << endl;
     }
@@ -197,8 +199,8 @@ int hogPredict(const Mat& img) {
     
     // predict by SVM classifier
     command.clear();
-    DEBUGMODE {} else svmPredictFlags.append("-q ");
-    command.append(ROOT_DIR).append(LIBSVM_DIR).append(svmPredictFlags).append(scaledDataFilePath).append(" ").append(svmModelFilePath).append(" ").append(resultFilePath);
+    DEBUGMODE {} else svmPredictRoutine.append("-q ");
+    command.append(rootDir).append(LIBSVM_DIR).append(svmPredictRoutine).append(scaledDataFilePath).append(" ").append(svmModelFilePath).append(" ").append(resultFilePath);
     DEBUGMODE {
         cout << "Predicting ... \n" <<command << endl;
     }

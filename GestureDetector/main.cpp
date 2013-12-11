@@ -13,6 +13,7 @@
  */
 int main(int argc, char** argv) {
     int mode = 2;
+    string rootDir;
     string imgpath;
     
     // parse command line arguments
@@ -29,11 +30,16 @@ int main(int argc, char** argv) {
             case 'i':
                 imgpath = string(argv[i]);
                 break;
+            case 'r':
+                rootDir = string(argv[i]);
+                break;
 			default:
 				fprintf(stderr,"Unknown option: -%c\n", argv[i-1][1]);
 				printHelp(argv[0]);
 		}
 	}
+    
+    if (!rootDir.empty() || rootDir[rootDir.length()-1] != '/') rootDir.push_back('/');
     
     vector<string> labels;
     labels.push_back("Negative");
@@ -60,22 +66,25 @@ int main(int argc, char** argv) {
         if (mode == 2) {
             cout << "============= Training =============\n";
             labels.clear();
+            double trainTime0 = getSecond();
             hogTrain("../train_list.txt", labels);
+            double trainTime1 = getSecond();
+            cout << "Time elasped for training = " << trainTime1 - trainTime0 << " seconds\n";
             cout << endl;
         }
         
-        double time0 = getSecond();
         cout << "===== Testing (Uniform Dataset) =====\n";
+        double testTime0 = getSecond();
         hogTest("../test_uniform_list.txt", labels);
-        double time1 = getSecond();
-        cout << "Time elasped for testing = " << time1-time0 << " seconds\n";
+        double testTime1 = getSecond();
+        cout << "Time elasped for testing = " << testTime1 - testTime0 << " seconds\n";
         
         cout << endl;
         
         cout << "===== Testing (Complex Dataset) =====\n";
         hogTest("../test_complex_list.txt", labels);
-        double time2 = getSecond();
-        cout << "Time elasped for testing = " << time2-time1 << " seconds\n";
+        double testTime2 = getSecond();
+        cout << "Time elasped for testing = " << testTime2 - testTime1 << " seconds\n";
     }
     else if (mode == 4) {
         VideoCapture cap(0); // open the default camera
@@ -128,7 +137,7 @@ int main(int argc, char** argv) {
         Mat croppedImg;
         Mat(img, region).copyTo(croppedImg);
         
-        int gdCode = hogPredict(croppedImg);
+        int gdCode = hogPredict(croppedImg, rootDir);
         DEBUGMODE {
             cout << "---------------------\n";
             cout << "   Gesture Code: " << gdCode << endl;
@@ -184,4 +193,5 @@ void printHelp(char* argv0) {
     cout << "   4 -- predict gesture via built-in camera\n";
     cout << "   5 -- predict gesture given an image\n";
     cout << "-i input_image_path (required if -m is 5)\n";
+    cout << "-r root_dir\n";
 }
