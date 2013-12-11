@@ -15,11 +15,11 @@ To build and run this project, you should prepare:
 
 Dataset
 -------
-This project uses [Sebastien Marcel - Hand Posture and Gesture Datasets][http://www.idiap.ch/resource/gestures/] for gesture samples, and background images from [INRIA Person Dataset][http://pascal.inrialpes.fr/data/human/] for negative samples. You can download the dataset [here][http://zichenzheng.com/documents/AppController/dataset.zip].
+This project uses [Sebastien Marcel - Hand Posture and Gesture Datasets](http://www.idiap.ch/resource/gestures/) for gesture samples, and background images from [INRIA Person Dataset](http://pascal.inrialpes.fr/data/human/) for negative samples. You can download the dataset [here](http://zichenzheng.com/documents/AppController/dataset.zip).
 
 LIBSVM
 ------
-The classifier used in this project is SVM; particularly, [LIBSVM][http://www.csie.ntu.edu.tw/~cjlin/libsvm/]. The three binary files in "libsvm" directory were compiled using LIBSVM source code under OS X.
+The classifier used in this project is SVM; particularly, [LIBSVM](http://www.csie.ntu.edu.tw/~cjlin/libsvm/). The three binary files in "libsvm" directory were compiled using LIBSVM source code under OS X.
 
 
 Configure OpenCV for Your Xcode
